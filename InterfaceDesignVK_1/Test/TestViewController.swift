@@ -152,21 +152,32 @@ class TestViewController : UIViewController, WKNavigationDelegate {
             
             print("parsGroups>List.count>",list.count)
             vkgroups = list
+            
+            
+            //// удаляем все записи по ReaLmGroup
+            try! realm.write {
+                let objectsToDelete = realm.objects(ReaLmGroup.self)
+                // and then just remove the set with
+                realm.delete(objectsToDelete)
+            }
+            
+            // добавляем новые записи из ВК в ReaLmGroup
             for group in list {
                 let realmGroup = ReaLmGroup()
-
+                
                 realmGroup.name =  group.name
                 realmGroup.id = group.id
                 realmGroup.text =   group.description
                 realmGroup.imageUrl = group.imageUrl
-
+                
                 try! realm.write {
                     realm.add(realmGroup)
                 }
             }
+            
         }
         print("parsGroups>friends.count>",vkgroups.count)
-
+        
         print("realm.configuration.fileURL")
         print(realm.configuration.fileURL)
     }

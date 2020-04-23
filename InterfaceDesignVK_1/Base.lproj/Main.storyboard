@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4j9-fu-ZpV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4j9-fu-ZpV">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -133,6 +133,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="Nd9-Dv-7zZ" id="8uN-fp-ohW"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ANJ-hH-qBF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -148,14 +151,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="testCells2" id="kdV-Hu-x2v" customClass="AllGrTableViewCell" customModule="InterfaceDesignVK_1" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="37.666667938232422"/>
+                                <rect key="frame" x="0.0" y="28" width="414" height="36.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kdV-Hu-x2v" id="H9D-hU-zVM">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="37.666667938232422"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="36.666667938232422"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WKT-eZ-X0q">
-                                            <rect key="frame" x="8" y="8.0000000000000018" width="406" height="21.666666666666671"/>
+                                            <rect key="frame" x="8" y="8.0000000000000018" width="406" height="20.666666666666671"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -487,16 +490,16 @@
             <point key="canvasLocation" x="-5413" y="261"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="VKlogo-1" width="1024" height="1024"/>
-        <image name="message.fill" catalog="system" width="64" height="56"/>
-        <image name="person.3.fill" catalog="system" width="71" height="34"/>
-        <image name="person.fill" catalog="system" width="64" height="60"/>
-        <image name="plus" catalog="system" width="64" height="56"/>
-        <image name="rectangle.fill.on.rectangle.fill" catalog="system" width="64" height="48"/>
-        <image name="rectangle.on.rectangle" catalog="system" width="64" height="48"/>
-    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="2QW-xR-PMh"/>
     </inferredMetricsTieBreakers>
+    <resources>
+        <image name="VKlogo-1" width="1024" height="1024"/>
+        <image name="message.fill" catalog="system" width="128" height="113"/>
+        <image name="person.3.fill" catalog="system" width="128" height="61"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="rectangle.fill.on.rectangle.fill" catalog="system" width="128" height="98"/>
+        <image name="rectangle.on.rectangle" catalog="system" width="128" height="98"/>
+    </resources>
 </document>

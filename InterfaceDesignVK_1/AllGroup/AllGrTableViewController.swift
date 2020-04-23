@@ -7,15 +7,69 @@
 //
 
 import UIKit
+import RealmSwift
 
 class AllGrTableViewController: UITableViewController {
+    // это менеджер базы
+    let realm = try! Realm()
+    // это массив который возвращавет база
+    var realmGroups: Results<ReaLmGroup>!
+    /// это переменная для обсервера
+    var token: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        }
         
+        
+        let grpsObs = realm.objects(ReaLmGroup.self)
+        /// подписка на изменения данных в базе по ReaLmGroup
+        self.token = grpsObs.observe {  (changes: RealmCollectionChange) in
+            print("данные изменились")
+            self.getGruupsDataBase()
+            self.tableView.reloadData()
+        }
+
+        ///// для теста код добавляние новой группы через 5 сек
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.addNewGroups()
+        }
+            ///// для теста код добавляние новой группы через 10 сек
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            self.addNewGroups()
+        }
+    }
+    
     
     // MARK: - Table view data source
+    
+    // получить все элементы ReaLmGroup в базе
+    func getGruupsDataBase(){
+        realmGroups = realm.objects(ReaLmGroup.self)
+        vkgroups.removeAll()
+        for realmGroup in realmGroups {
+            let grp = Group()
+            grp.name  = realmGroup.name
+            grp.imageUrl = realmGroup.imageUrl
+            grp.id = realmGroup.id
+            grp.description = realmGroup.text
+            vkgroups.append(grp)
+        }
+        
+    }
+    
+    /// фунгкция для добавления в базе новой группы
+    func addNewGroups(){
+        let realmGroup = ReaLmGroup()
+        realmGroup.name =  "Новая группа"
+        realmGroup.id = 43
+        realmGroup.text = "тестовая группа"
+        realmGroup.imageUrl = ""
+        
+        try! realm.write {
+            realm.add(realmGroup)
+        }
+    }
+    
     
             
     override func numberOfSections(in tableView: UITableView) -> Int {
