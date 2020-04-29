@@ -10,8 +10,14 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import ObjectMapper
+import RealmSwift
 
 class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
+    
+    let realm = try! Realm()
+    var realmUser: Results<RealmUser>!
+    var token: NotificationToken?
+    
     @IBOutlet weak var searchBar: UISearchBar!
     var isSearching: Bool = false
     var filtered: [User] = [User]()
@@ -45,6 +51,22 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let userObs = realm.objects(RealmUser.self)
+               self.token = userObs.observe {  (changes: RealmCollectionChange) in
+                   print("данные изменились")
+                   self.getFriendsDataBase()
+                   self.tableView.reloadData()
+               }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                  self.addNewUser()
+              }
+                  
+              DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                  self.addNewUser()
+              }
+        
         
         searchBar.delegate = self
         
@@ -81,6 +103,38 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     
     //MARK: - Table view data source
+    
+       func getFriendsDataBase(){
+           realmUser = realm.objects(RealmUser.self)
+           //friends.removeAll()
+           for realmUser in realmUser {
+               let use = User()
+               use.first_name   = realmUser.first_name
+               use.name = realmUser.name
+               use.last_name = realmUser.last_name
+               use.photo_50 = realmUser.photo_50
+               use.photos.append(UIImage(named: "barbi7")!)
+               let index = 0
+               let firstCharacter = use.name[String.Index(encodedOffset: index)]
+               friends.updateValue([use], forKey: firstCharacter)
+            
+           }
+           
+       }
+       
+       func addNewUser(){
+           let realmUser = RealmUser()
+           realmUser.name =  "New Friend"
+           realmUser.first_name = ""
+           realmUser.last_name = "Неизвестно"
+           realmUser.photo_50 = ""
+           
+           try! realm.write {
+               realm.add(realmUser)
+           }
+       }
+    
+    
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 26

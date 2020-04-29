@@ -15,33 +15,48 @@ import RealmSwift
 
 
 class NewsTableViewController: UITableViewController {
+    // это менеджер базы
+    let realm = try! Realm()
+    // это массив который возвращавет база
+    var realmNewss: Results<RealmNews>!
+    var token: NotificationToken?
+    
     @IBOutlet var newsTable: UITableView!
     
     var news = [News] ()
     var url = "https://api.vk.com/method/"
     var version = "5.103"
     var client_id = 7342462
-    let realm = try! Realm()
+    //let realm = try! Realm()
     var items: Results<RealmUser>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let nwObs = realm.objects(RealmNews.self)
+        self.token = nwObs.observe { (changes: RealmCollectionChange) in
+            print("данные изменились")
+            self.getNewsDataBase()
+            self.tableView.reloadData()
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.addNewNews()
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            self.addNewNews()
+        }
+        
         self.tableView.register(UINib(nibName: "NewsTableViewCell", bundle: nil), forCellReuseIdentifier: "NewsCell") //регистрация ячейки xib
         
-        
-        //newsfeed.get
         
         news = [
             News(text: news1, image: UIImage(named: "Parasite")!, views: 889),
             News(text: news1, image: UIImage(named: "Parasite")!, views: 889)
         ]
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
 
         vkRequestNewsGet()
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     
@@ -103,9 +118,32 @@ class NewsTableViewController: UITableViewController {
         }
     }
     
-    
     // MARK: - Table view data source
 
+    func getNewsDataBase(){
+           realmNewss = realm.objects(RealmNews.self)
+           news.removeAll()
+           for realmNews in realmNewss {
+               let nw = News()
+               nw.views  = realmNews.views
+               nw.imageUrl = realmNews.imageUrl
+               nw.text = realmNews.text
+               news.append(nw)
+        }
+    }
+    
+    func addNewNews(){
+        let realmNews = RealmNews()
+        realmNews.views =  0
+        realmNews.imageUrl = ""
+        realmNews.text = "Новая публикация"
+        
+        try! realm.write {
+            realm.add(realmNews)
+        }
+    }
+            
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1

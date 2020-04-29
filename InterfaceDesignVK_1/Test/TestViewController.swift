@@ -157,7 +157,7 @@ class TestViewController : UIViewController, WKNavigationDelegate {
             //// удаляем все записи по ReaLmGroup
             try! realm.write {
                 let objectsToDelete = realm.objects(ReaLmGroup.self)
-                // and then just remove the set with
+               
                 realm.delete(objectsToDelete)
             }
             
