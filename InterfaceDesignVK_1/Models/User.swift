@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 import SwiftyJSON
 import ObjectMapper
-import SwiftyImageCache
 
 var vkgroups = [Group]()
 var friends : Dictionary<Character, [User]> = [

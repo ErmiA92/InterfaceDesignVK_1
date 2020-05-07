@@ -13,52 +13,10 @@ import SwiftyJSON
 import Alamofire
 import ObjectMapper
 import RealmSwift
-
+import Firebase
 
 class API {
-
-    
-
     init() {}
-    
-//    func VKRequestGroupsGet() {
-//        var url_suff = "groups.get/"
-//        var params = Parameters()
-//        params["user_ids"] = Session.instance.userID
-//        params["access_token"] = Session.instance.token
-//        params["v"] = version
-//        params["fields"] = "nickname, country, photo_50"
-//
-//        //params[""] = ...
-//
-//        Alamofire.request( url + url_suff, method: .get, parameters: params ).responseJSON { response in
-//            print("\n" + url_suff)
-//            print(response)
-//        }
-//    }
-    
-
-    
-//
-//    func VKRequestPhotosGet() {
-//        let url_suff = "photos.get/"
-//        var params = Parameters()
-//        params["user_ids"] = Session.instance.userID
-//        params["access_token"] = Session.instance.token
-//        params["v"] = version
-//        params["fields"] = "nickname, country, photo_50"
-//
-//        //params[""] = ...
-//
-//        Alamofire.request( url + url_suff, method: .get, parameters: params ).responseJSON { response in
-//            print("\n" + url_suff)
-//            print(response)
-//        }
-//    }
-    
-    
-
-    
     
     func loginRequest() {
         
@@ -73,7 +31,8 @@ class TestViewController : UIViewController, WKNavigationDelegate {
     var api: API = API()
     let theURL = "https://api.vk.com/method/friends.get?user_ids=293104687&fields=bdate&access_token=0952aa9dc84b0a07fe8df167a89032fc7936daba75b4fb0b265cdfd90eab610618e2dfe8fe0eca2625a1a&v=5.103"
     //"https://api.vk.com/method/friends.get?access_token=" + "theGlobalToken" + "&fields=picture_50&lang=ru&count=100&version=5.69&"
-
+    var ref: DatabaseReference!
+    
     var url = "https://api.vk.com/method/"
     var version = "5.103"
     var client_id = 7342462
@@ -87,21 +46,36 @@ class TestViewController : UIViewController, WKNavigationDelegate {
         wk.navigationDelegate = self
         view = wk
     }
-   
     
+    func sendUseridtoDatebase(id: Int) {
+        ref = Database.database().reference()
+        print("Database.database")
+        ref.child("users").child(String(id)).setValue(id)
+    }
+    
+    
+    func sendGroupsDatabase() {
+         ref = Database.database().reference()
+         print("Database.GroupsDatabase")
+        ref = Database.database().reference(withPath: "groupe")
+        print("Database.GroupsDatabase withPath groups")
+        for grp in vkgroups {
+            print("grp.name>", grp.name)
+            if grp.name.count > 0 {
+          ref.child(String(grp.id)).setValue(grp.name)
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
       getFriendsDataBase()
+    
         
-     //   let api = API()
-     //   api.VKRequest("groups.get")
-     //   api.VKRequest("friends.get")
-      //  api.VKRequest("photos.get")
-       // api.loginRequest()
+      
         
-
+ 
 
         let client_id = "client_id=7342462"
         let scope = "scope=friends"
@@ -175,6 +149,7 @@ class TestViewController : UIViewController, WKNavigationDelegate {
                 }
             }
             
+            sendGroupsDatabase()
         }
         print("parsGroups>friends.count>",vkgroups.count)
         
@@ -292,12 +267,15 @@ extension TestViewController: WKUIDelegate {
         let url = URL(string:absoluteString)
         print(absoluteString)
         let expires_in = url!["expires_in"]
-        if let access_token = url!["access_token"] {
+        if let access_token = url!["access_token"] , let user_id = url!["user_id"] {
             Session.instance.token = access_token
+            Session.instance.userID = Int(user_id) ?? 0
+            sendUseridtoDatebase(id: Session.instance.userID)
             getFriends()
         }
     }
 }
+
 
 func getQueryStringParameter(url: String, param: String) -> String? {
   guard let url = URLComponents(string: url) else { return nil }

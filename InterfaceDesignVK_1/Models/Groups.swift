@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import ObjectMapper
-import SwiftyImageCache
 
 class Group: Mappable {
     
