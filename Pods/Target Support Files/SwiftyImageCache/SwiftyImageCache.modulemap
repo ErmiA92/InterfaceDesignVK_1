@@ -1,6 +1,0 @@
-module SwiftyImageCache {
-  umbrella header "SwiftyImageCache-umbrella.h"
-
-  export *
-  module * { export * }
-}
