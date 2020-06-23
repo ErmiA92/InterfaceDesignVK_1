@@ -23,8 +23,9 @@ class AllGrTableViewController: UITableViewController {
         
         let grpsObs = realm.objects(ReaLmGroup.self)
         /// подписка на изменения данных в базе по ReaLmGroup
+        //gj
         self.token = grpsObs.observe {  (changes: RealmCollectionChange) in
-            print("данные изменились")
+            print("данные изменилис")
             self.getGruupsDataBase()
             self.tableView.reloadData()
         }
