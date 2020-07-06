@@ -45,6 +45,7 @@
 		50EB0DA22405482D004B0A41 /* NavigationTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB0DA12405482D004B0A41 /* NavigationTransition.swift */; };
 		50EB0DA42406EB9B004B0A41 /* CustomInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB0DA32406EB9B004B0A41 /* CustomInteractiveTransition.swift */; };
 		53FDFEDA6AC233896D99B827 /* libPods-InterfaceDesignVK_1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40802BB5D78F5B01B6535A73 /* libPods-InterfaceDesignVK_1.a */; };
+		8BA68AAC24B39C880070ED48 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA68AAB24B39C880070ED48 /* DataService.swift */; };
 		8BAFC92D2436096D00C6903A /* RealmUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAFC92C2436096D00C6903A /* RealmUser.swift */; };
 		8BC927DE24473DA800D43CC0 /* RealmNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC927DD24473DA800D43CC0 /* RealmNews.swift */; };
 		8BFBD6442463079900CEA3C1 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8BFBD63B2463079900CEA3C1 /* LICENSE */; };
@@ -121,6 +122,7 @@
 		50EB0DA12405482D004B0A41 /* NavigationTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTransition.swift; sourceTree = "<group>"; };
 		50EB0DA32406EB9B004B0A41 /* CustomInteractiveTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInteractiveTransition.swift; sourceTree = "<group>"; };
 		80D3FA305AECDAE236540ACF /* Pods-InterfaceDesignVK_1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InterfaceDesignVK_1.debug.xcconfig"; path = "Target Support Files/Pods-InterfaceDesignVK_1/Pods-InterfaceDesignVK_1.debug.xcconfig"; sourceTree = "<group>"; };
+		8BA68AAB24B39C880070ED48 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		8BAFC92C2436096D00C6903A /* RealmUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmUser.swift; sourceTree = "<group>"; };
 		8BC927DD24473DA800D43CC0 /* RealmNews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmNews.swift; sourceTree = "<group>"; };
 		8BFBD63B2463079900CEA3C1 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 		50305D4223893C0A0012A633 /* InterfaceDesignVK_1 */ = {
 			isa = PBXGroup;
 			children = (
+				8BA68AAA24B39C6E0070ED48 /* Services */,
 				50AD2BC4240D268200C4C4EE /* Server Interaction */,
 				50EB0D9C2404764B004B0A41 /* Animation */,
 				50EB0D9323FF19B5004B0A41 /* Singleton */,
@@ -348,6 +351,14 @@
 				50EB0DA32406EB9B004B0A41 /* CustomInteractiveTransition.swift */,
 			);
 			path = Animation;
+			sourceTree = "<group>";
+		};
+		8BA68AAA24B39C6E0070ED48 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8BA68AAB24B39C880070ED48 /* DataService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		8BFBD63A2463079900CEA3C1 /* SwiftyImageCache */ = {
@@ -568,6 +579,7 @@
 				50EB0DA42406EB9B004B0A41 /* CustomInteractiveTransition.swift in Sources */,
 				8BAFC92D2436096D00C6903A /* RealmUser.swift in Sources */,
 				50E9739B23D7831F00F96751 /* FriendsTableViewCell.swift in Sources */,
+				8BA68AAC24B39C880070ED48 /* DataService.swift in Sources */,
 				503A035823EA0FA700C2AE18 /* LikeView.swift in Sources */,
 				503A035623E9FFC700C2AE18 /* TestViewController.swift in Sources */,
 				50E973C623DCC31700F96751 /* AllGrTableViewCell.swift in Sources */,

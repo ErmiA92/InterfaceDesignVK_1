@@ -24,9 +24,7 @@ class NewsTableViewController: UITableViewController {
     @IBOutlet var newsTable: UITableView!
     
     var news = [News] ()
-    var url = "https://api.vk.com/method/"
-    var version = "5.103"
-    var client_id = 7342462
+
     //let realm = try! Realm()
     var items: Results<RealmUser>!
     
@@ -39,84 +37,18 @@ class NewsTableViewController: UITableViewController {
             self.getNewsDataBase()
             self.tableView.reloadData()
         }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.addNewNews()
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-            self.addNewNews()
-        }
-        
+    
         self.tableView.register(UINib(nibName: "NewsTableViewCell", bundle: nil), forCellReuseIdentifier: "NewsCell") //регистрация ячейки xib
         
-        
-        news = [
-            News(text: news1, image: UIImage(named: "Parasite")!, views: 889),
-            News(text: news1, image: UIImage(named: "Parasite")!, views: 889)
-        ]
-
-        vkRequestNewsGet()
-    }
-
-    
-    func vkRequestNewsGet() {
-        let url_suff = "newsfeed.get/"
-        var params = Parameters()
-        params["access_token"] = Session.instance.token
-        params["v"] = version
-        params["count"] = 5
-        params["source_ids"] = "pages"
-        //params[""] = ...
-        //filters=post&count=1
-        
-        print("Session.instance.token>", Session.instance.token)
-        
-        Alamofire.request( url + url_suff, method: .get, parameters: params ).responseJSON { response in
-            print(response)
-            let json = JSON(response.value)
-            let response = json["response"]
-            self.parsUsers(response: response)
-            //print(response)
-        }
-    }
-    
-    func parsUsers(response: JSON) {
-        print("parsUsers>", response)
-        news.removeAll()
-        for (_,value) in response["items"]{
-            let text = value["text"].stringValue
-            let id = value["id"].intValue
-            let attachments = value["attachments"]
-            print("attachments>",attachments)
-            let photos = attachments[0]["photo"]["sizes"]
-            // print("photos>",photos)
-            var imageUrl = ""
-            for (_,img) in photos {
-                if imageUrl.isEmpty {
-                    imageUrl = img["url"].stringValue
-                }
-            }
-            news.append(News(text: text, imageUrl: imageUrl, views: id))
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-            self.tableView.reloadData()
-        }
-        
-        print("parsUsers>friends.count>",news.count)
-        for new in news {
-            let realmNews = RealmNews()
-            
-            realmNews.text =  new.text
-            realmNews.imageUrl =   new.imageUrl
-            realmNews.views =   new.views
-            
-            try! realm.write {
-                realm.add(realmNews)
+        DataService.shared.vkRequestNewsGet { (status, newslist, error) in
+            if status {
+                self.news = newslist
+                self.tableView.reloadData()
             }
         }
     }
+
+  
     
     // MARK: - Table view data source
 
