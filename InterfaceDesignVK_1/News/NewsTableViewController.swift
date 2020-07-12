@@ -40,14 +40,32 @@ class NewsTableViewController: UITableViewController {
     
         self.tableView.register(UINib(nibName: "NewsTableViewCell", bundle: nil), forCellReuseIdentifier: "NewsCell") //регистрация ячейки xib
         
-        DataService.shared.vkRequestNewsGet { (status, newslist, error) in
-            if status {
-                self.news = newslist
-                self.tableView.reloadData()
-            }
-        }
+       getAll()
     }
 
+    func getAll() {
+        let dispatchGroup = DispatchGroup()
+        
+        print("dispatchGroup START")
+        DispatchQueue.global().async(group: dispatchGroup) {
+            print("vkRequestNewsGet>1")
+            DataService.shared.vkRequestNewsGet { (status, newslist, error) in
+                if status {
+                    self.news = newslist
+                    print("vkRequestNewsGet>1>END")
+                }
+            }
+        }
+    
+        
+        dispatchGroup.notify(queue: DispatchQueue.main) {
+            print("dispatchGroup END")
+//            self.images = bluredImages
+//            self.tableView.reloadData()
+        }
+    
+         print("END END")
+    }
   
     
     // MARK: - Table view data source

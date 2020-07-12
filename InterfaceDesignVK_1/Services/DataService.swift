@@ -2,7 +2,7 @@
 //  DataService.swift
 //  InterfaceDesignVK_1
 //
-//  Created by Ахмед Фокичев on 06.07.2020.
+//  Created by Ermine Harutynyan on 06.07.2020.
 //  Copyright © 2020 Ermine Harutynyan. All rights reserved.
 //
 
@@ -25,21 +25,83 @@ class DataService {
         params["v"] = version
         params["count"] = 30
         params["source_ids"] = "pages"
-        
         print("Session.instance.token>", Session.instance.token)
-        
         Alamofire.request( url + url_suff, method: .get, parameters: params ).responseJSON { response in
-            
             if let statusCode = response.response?.statusCode, statusCode == 200 {
+                
+                
                 let json = JSON(response.value)
+                print("vkRequestNewsGet>json>", json)
                 let response = json["response"]
-                let news = self.parsNews(response: response)
-                completion(true, news, "")
+                
+                self.parsAll(value: response)
+                
+                               
+                              
+                //let news = self.parsNews(response: response)
+                
+                
+                completion(true, [News](), "")
             } else {
                 completion(false, [News](), "ошибка")
             }
         }
     }
+    
+    func parsProfiles(response: JSON) -> [Profile] {
+        if let list = Mapper<Profile>().mapArray(JSONObject: response.object) {
+            return list
+        } else {
+            return [Profile]()
+        }
+    }
+    
+    func parsGroups(response: JSON) -> [Groupe] {
+        if let list = Mapper<Groupe>().mapArray(JSONObject: response.object) {
+            return list
+        } else {
+            return [Groupe]()
+        }
+    }
+    func parsItems(response: JSON) -> [Item] {
+        if let list = Mapper<Item>().mapArray(JSONObject: response.object) {
+            return list
+        } else {
+            return [Item]()
+        }
+    }
+    
+    
+    func parsAll(value:JSON) {
+        
+        let dispatchGroup = DispatchGroup()
+        
+        var profiles = [Profile]()
+        var groups = [Groupe]()
+        var items = [Item]()
+        
+        DispatchQueue.global().async(group: dispatchGroup) {
+            profiles = self.parsProfiles(response: value["profiles"])
+        }
+        DispatchQueue.global().async(group: dispatchGroup) {
+            groups = self.parsGroups(response: value["groups"])
+        }
+        DispatchQueue.global().async(group: dispatchGroup) {
+            items = self.parsItems(response: value["items"])
+        }
+        /////////
+        /////////
+        
+        dispatchGroup.notify(queue: DispatchQueue.main) {
+            print("dispatchGroup>notify")
+            print("profiles.count>",profiles.count)
+            print("groups.count>",groups.count)
+            print("items.count>",items.count)
+        }
+        
+    }
+    
+    
     
     func parsNews(response: JSON) -> [News] {
         print("parsNews>", response)
